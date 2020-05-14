@@ -28,8 +28,8 @@ module.exports = (projectDirectory, cliArguments) => {
   const useNpm = cliArguments.useNpm !== undefined;
   let newUuid = uuid();
 
-  if (cliArguments.oneClick !== undefined) {
-    newUuid = cliArguments.oneClick + '-' + uuid();
+  if (process.env.ONE_CLICK !== undefined) {
+    newUuid = process.env.ONE_CLICK + '-' + uuid();
   }
 
   const scope = {
