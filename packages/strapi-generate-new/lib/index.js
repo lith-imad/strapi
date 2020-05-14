@@ -23,12 +23,14 @@ module.exports = (projectDirectory, cliArguments) => {
 
   const rootPath = resolve(projectDirectory);
 
-  const tmpPath = join(
-    os.tmpdir(),
-    `strapi${crypto.randomBytes(6).toString('hex')}`
-  );
+  const tmpPath = join(os.tmpdir(), `strapi${crypto.randomBytes(6).toString('hex')}`);
 
   const useNpm = cliArguments.useNpm !== undefined;
+  let newUuid = uuid();
+
+  if (cliArguments.oneClick !== undefined) {
+    newUuid = cliArguments.oneClick + '-' + uuid();
+  }
 
   const scope = {
     rootPath,
@@ -40,7 +42,7 @@ module.exports = (projectDirectory, cliArguments) => {
     debug: cliArguments.debug !== undefined,
     quick: cliArguments.quickstart !== undefined,
     docker: process.env.DOCKER === 'true',
-    uuid: uuid(),
+    uuid: newUuid,
     deviceId: machineIdSync(),
     tmpPath,
     // use yarn if available and --use-npm isn't true
